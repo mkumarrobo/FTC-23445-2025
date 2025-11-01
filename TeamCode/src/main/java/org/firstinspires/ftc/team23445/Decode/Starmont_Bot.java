@@ -51,25 +51,29 @@ public class Starmont_Bot {
 
         //TODO: Initialize all motors and servos from the hardware map
         //Example: frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        backleftwheel = hardwareMap.get(DcMotor.class, "Left Back");
-        backrightwheel = hardwareMap.get(DcMotor.class, "Right Back");
-        frontleftwheel = hardwareMap.get(DcMotor.class, "Left Front");
-        frontrightwheel = hardwareMap.get(DcMotor.class, "Right Front");
-        frontArm = hardwareMap.get(DcMotor.class, "Lift Motor");
-        backArm = hardwareMap.get(DcMotor.class, "Back Arm");
+        backleftwheel = hardwareMap.get(DcMotor.class, "backLeftMotor");
+        backrightwheel = hardwareMap.get(DcMotor.class, "backRightMotor");
+        frontleftwheel = hardwareMap.get(DcMotor.class, "frontLeftMotor");
+        frontrightwheel = hardwareMap.get(DcMotor.class, "frontRightMotor");
+        //frontArm = hardwareMap.get(DcMotor.class, "armMotor");
+        //backArm = hardwareMap.get(DcMotor.class, "armMotor2");
 
-        frontLeftJaw = hardwareMap.get(Servo.class, "Grab Servo Left");
-        frontRightJaw = hardwareMap.get(Servo.class, "Grab Servo Right");
-        flippyFrontArm = hardwareMap.get(Servo.class, "Arm Servo");
-        backLeftJaw = hardwareMap.get(Servo.class, "Back Arm Left");
-        backRightJaw = hardwareMap.get(Servo.class, "Back Arm Right");
-        backArmPivot = hardwareMap.get(Servo.class, "Back Arm Pivot");
+        //frontLeftJaw = hardwareMap.get(Servo.class, "Grab Servo Left");
+        //frontRightJaw = hardwareMap.get(Servo.class, "Grab Servo Right");
+        //flippyFrontArm = hardwareMap.get(Servo.class, "Arm Servo");
+        //backLeftJaw = hardwareMap.get(Servo.class, "Back Arm Left");
+        //backRightJaw = hardwareMap.get(Servo.class, "Back Arm Right");
+        //backArmPivot = hardwareMap.get(Servo.class, "Back Arm Pivot");
 
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         //TODO: Reverse left side motors for mecanum wheel driving
         //Example frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        backleftwheel.setDirection(DcMotor.Direction.REVERSE);
+        backrightwheel.setDirection(DcMotor.Direction.REVERSE);
         frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
+
+        // RIGHT side motors stay FORWARD
+        frontleftwheel.setDirection(DcMotor.Direction.FORWARD);
+        backrightwheel.setDirection(DcMotor.Direction.FORWARD);
 
         // This tells the motors to chill when we're not powering them.
         //TODO: Add in zero-power behaviors to avoid drift
@@ -78,7 +82,7 @@ public class Starmont_Bot {
         backleftwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //frontArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("Status", "Initialized");
 
@@ -97,10 +101,10 @@ public class Starmont_Bot {
 
     public void moveElbow(Boolean raiseIt) {
         if (raiseIt) { // raise it
-            flippyFrontArm.setPosition(.5);
+            //flippyFrontArm.setPosition(.5);
         }
         else { // lower it
-            flippyFrontArm.setPosition(0.78);
+           // flippyFrontArm.setPosition(0.78);
         }
     }
 
@@ -143,8 +147,8 @@ public class Starmont_Bot {
 
         } else if (direction == "Forward"){
             //To move forward, all of the wheels should spin forward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() + ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() + ticks);
+            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
+            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
             backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
             backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
 

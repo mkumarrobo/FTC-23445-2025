@@ -83,7 +83,7 @@ public class Starmont_Bot_Tele_Op extends OpMode {
      * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
      */
     public void init_loop() {
-        telemetry.addData("LOCK THE ACTUAL FUCK IN!!!! gage if u report this ill tell the officials about the pocketknife u carry", "\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25");
+        telemetry.addData("LOCK THE ACTUAL IN!!!! gage if u report this ill tell the officials about the pocketknife u carry", "\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDCA5\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25\uD83D\uDD25");
     }
 
     /*
@@ -140,50 +140,56 @@ public class Starmont_Bot_Tele_Op extends OpMode {
         robot.backleftwheel.setPower(motorPowers[2]);      /* Can be reversed */
         robot.backrightwheel.setPower(motorPowers[3]);      /* Can be reversed */
     }
+    private void singleJoystickDrive() {
+        float y = -gamepad1.left_stick_y;     // Forward/Back
+        float x = gamepad1.left_stick_x;     // Strafe
+        float r = gamepad1.right_stick_x;    // Rotation
 
-    private void singleJoystickDrive () {
-        // A good explanation of how this function works: https://gm0.org/en/latest/docs/software/tutorials/mecanum-drive.html
-
-        float rightX = -this.gamepad1.right_stick_x;      /* Can be reversed */
-        float leftY = this.gamepad1.left_stick_y;      /* Can be reversed */
-        float leftX = -this.gamepad1.left_stick_x;      /* Can be reversed */
-
-        float[] motorPowers = new float[4];
-
-            motorPowers[0] = (leftY + leftX + rightX);      /* Can be reversed */
-            motorPowers[1] = (leftY - leftX - rightX);      /* Can be reversed */
-            motorPowers[2] = (leftY - leftX + rightX);      /* Can be reversed */
-            motorPowers[3] = (leftY + leftX - rightX);      /* Can be reversed */
+        telemetry.addData("Left Stick Y", gamepad1.left_stick_y);
+        telemetry.addData("Left Stick X", gamepad1.left_stick_x);
+        telemetry.addData("Right Stick X", gamepad1.right_stick_x);
+        telemetry.update();
 
 
+        telemetry.addData("Input", "y: %.2f, x: %.2f, r: %.2f", y, x, r);
+
+        // Mecanum wheel formulas
+        float frontLeft  = y + x + r;
+        float frontRight = y - x - r;
+        float backLeft   = y - x + r;
+        float backRight  = y + x - r;
+
+        float[] motorPowers = { frontLeft, frontRight, backLeft, backRight };
+
+        // Normalize motor powers if needed
         float max = getLargestAbsVal(motorPowers);
-        if (max < 1) {
-            max = 1;
-        }
+        if (max < 1.0f) max = 1.0f;
 
         for (int i = 0; i < motorPowers.length; i++) {
             motorPowers[i] *= (speed / max);
-
-            float abs = Math.abs(motorPowers[i]);
-            if (abs < 0.05) {
-                motorPowers[i] = 0.0f;
-            }
-            if (abs > 1.0) {
-                motorPowers[i] /= abs;
+            if (Math.abs(motorPowers[i]) < 0.05f) {
+                motorPowers[i] = 0.0f; // Deadzone
+            } else if (Math.abs(motorPowers[i]) > 1.0f) {
+                motorPowers[i] /= Math.abs(motorPowers[i]); // Clamp
             }
         }
 
-        setIndividualPowers(motorPowers);
+        telemetry.addData("Powers",
+                "FL: %.2f, FR: %.2f, BL: %.2f, BR: %.2f",
+                motorPowers[0], motorPowers[1], motorPowers[2], motorPowers[3]);
+        telemetry.update();
 
+        setIndividualPowers(motorPowers);
     }
+
 
     private void armControl() {
         if (gamepad2.left_stick_y >= 0.1){
-            robot.frontArm.setPower(0.5);
+            //robot.frontArm.setPower(0.5);
         } else if (gamepad2.left_stick_y <= -0.1){
-            robot.frontArm.setPower(-0.5);
+            //robot.frontArm.setPower(-0.5);
         } else {
-            robot.frontArm.setPower(0);
+            //robot.frontArm.setPower(0);
         }
     }
     private void clawControl() {
