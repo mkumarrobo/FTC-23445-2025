@@ -51,11 +51,11 @@ public class Starmont_Bot {
 
         //TODO: Initialize all motors and servos from the hardware map
         //Example: frontLeftDrive = hardwareMap.get(DcMotor.class, "frontLeftDrive");
-        backleftwheel = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        backrightwheel = hardwareMap.get(DcMotor.class, "backRightMotor");
-        frontleftwheel = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        frontrightwheel = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        //frontArm = hardwareMap.get(DcMotor.class, "armMotor");
+        backleftwheel = hardwareMap.get(DcMotor.class, "BL");
+        backrightwheel = hardwareMap.get(DcMotor.class, "BR");
+        frontleftwheel = hardwareMap.get(DcMotor.class, "FL");
+        frontrightwheel = hardwareMap.get(DcMotor.class, "FR");
+        frontArm = hardwareMap.get(DcMotor.class, "FArm");
         //backArm = hardwareMap.get(DcMotor.class, "armMotor2");
 
         //frontLeftJaw = hardwareMap.get(Servo.class, "Grab Servo Left");
@@ -68,12 +68,20 @@ public class Starmont_Bot {
         // This section sets the direction of all of the motors. Depending on the motor, this may change later in the program.
         //TODO: Reverse left side motors for mecanum wheel driving
         //Example frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
+
+        //Robot one
         backrightwheel.setDirection(DcMotor.Direction.REVERSE);
         frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
-
         // RIGHT side motors stay FORWARD
         frontleftwheel.setDirection(DcMotor.Direction.FORWARD);
         backrightwheel.setDirection(DcMotor.Direction.FORWARD);
+
+        //Robot second
+       /* frontleftwheel.setDirection(DcMotor.Direction.FORWARD);
+        backleftwheel.setDirection(DcMotor.Direction.FORWARD);
+
+        frontrightwheel.setDirection(DcMotor.Direction.REVERSE);
+        backrightwheel.setDirection(DcMotor.Direction.REVERSE);*/
 
         // This tells the motors to chill when we're not powering them.
         //TODO: Add in zero-power behaviors to avoid drift
@@ -82,7 +90,7 @@ public class Starmont_Bot {
         backleftwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //frontArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("Status", "Initialized");
 

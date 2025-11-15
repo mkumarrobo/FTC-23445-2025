@@ -52,7 +52,7 @@ import org.firstinspires.ftc.team23445.Decode.Starmont_Bot;
  */
 
 //This sets this op mode as a TeleOp op mode, gives it a name, and gives it a group
-@TeleOp(name="TeleOp For Starmont", group="Outreach")
+@TeleOp(name="TeleOp For robot1", group="Outreach")
 
 //Because this extends the OpMode class, it automatically comes with a bunch of functions we can call.
 public class Starmont_Bot_Tele_Op extends OpMode {
@@ -107,9 +107,9 @@ public class Starmont_Bot_Tele_Op extends OpMode {
 
         armControl();
 
-        clawControl();
+       // clawControl();
 
-        elbowControl();
+       // elbowControl();
 
     }
 
@@ -140,7 +140,7 @@ public class Starmont_Bot_Tele_Op extends OpMode {
         robot.backleftwheel.setPower(motorPowers[2]);      /* Can be reversed */
         robot.backrightwheel.setPower(motorPowers[3]);      /* Can be reversed */
     }
-    private void singleJoystickDrive() {
+    /*private void singleJoystickDrive() {
         float y = -gamepad1.left_stick_y;     // Forward/Back
         float x = gamepad1.left_stick_x;     // Strafe
         float r = gamepad1.right_stick_x;    // Rotation
@@ -180,16 +180,46 @@ public class Starmont_Bot_Tele_Op extends OpMode {
         telemetry.update();
 
         setIndividualPowers(motorPowers);
+    }*/
+
+    private void singleJoystickDrive() {
+
+        float y = -gamepad1.left_stick_y;   // forward/back
+        float x =  -gamepad1.left_stick_x;   // strafe
+        float r =  gamepad1.right_stick_x;  // turn
+
+        // --- Corrected formulas for your wheel direction ---
+        float frontLeft  =  y - x + r;
+        float frontRight =  y + x - r;
+        float backLeft   =  y + x + r;
+        float backRight  =  y - x - r;
+
+        // Normalize
+        float max = Math.max(
+                Math.max(Math.abs(frontLeft), Math.abs(frontRight)),
+                Math.max(Math.abs(backLeft), Math.abs(backRight))
+        );
+        if (max > 1.0f) {
+            frontLeft  /= max;
+            frontRight /= max;
+            backLeft   /= max;
+            backRight  /= max;
+        }
+
+        float[] powers = {frontLeft, frontRight, backLeft, backRight};
+        setIndividualPowers(powers);
     }
+
+
 
 
     private void armControl() {
         if (gamepad2.left_stick_y >= 0.1){
-            //robot.frontArm.setPower(0.5);
+            robot.frontArm.setPower(0.5);
         } else if (gamepad2.left_stick_y <= -0.1){
-            //robot.frontArm.setPower(-0.5);
+            robot.frontArm.setPower(-0.5);
         } else {
-            //robot.frontArm.setPower(0);
+            robot.frontArm.setPower(0);
         }
     }
     private void clawControl() {

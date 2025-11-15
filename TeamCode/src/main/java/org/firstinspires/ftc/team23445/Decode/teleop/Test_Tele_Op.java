@@ -18,14 +18,18 @@ public class Test_Tele_Op extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        frontLeft = hardwareMap.get(DcMotor.class, "frontLeftMotor");
-        frontRight = hardwareMap.get(DcMotor.class, "frontRightMotor");
-        backLeft = hardwareMap.get(DcMotor.class, "backLeftMotor");
-        backRight = hardwareMap.get(DcMotor.class, "backRightMotor");
+        frontLeft = hardwareMap.get(DcMotor.class, "FL");
+        frontRight = hardwareMap.get(DcMotor.class, "FR");
+        backLeft = hardwareMap.get(DcMotor.class, "BL");
+        backRight = hardwareMap.get(DcMotor.class, "BR");
 
         // Optionally reverse motors if needed
         frontLeft.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+
+        // RIGHT side motors stay FORWARD
+        frontLeft.setDirection(DcMotor.Direction.FORWARD);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
