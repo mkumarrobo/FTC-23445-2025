@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -82,6 +83,13 @@ public class Starmont_Bot {
 
         frontrightwheel.setDirection(DcMotor.Direction.REVERSE);
         backrightwheel.setDirection(DcMotor.Direction.REVERSE);*/
+
+        //Robot 3
+        /*frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
+        backleftwheel.setDirection(DcMotor.Direction.REVERSE);
+
+        frontrightwheel.setDirection(DcMotor.Direction.FORWARD);
+        backrightwheel.setDirection(DcMotor.Direction.FORWARD);*/
 
         // This tells the motors to chill when we're not powering them.
         //TODO: Add in zero-power behaviors to avoid drift

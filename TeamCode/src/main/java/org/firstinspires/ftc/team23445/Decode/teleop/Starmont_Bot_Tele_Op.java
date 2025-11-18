@@ -140,47 +140,6 @@ public class Starmont_Bot_Tele_Op extends OpMode {
         robot.backleftwheel.setPower(motorPowers[2]);      /* Can be reversed */
         robot.backrightwheel.setPower(motorPowers[3]);      /* Can be reversed */
     }
-    /*private void singleJoystickDrive() {
-        float y = -gamepad1.left_stick_y;     // Forward/Back
-        float x = gamepad1.left_stick_x;     // Strafe
-        float r = gamepad1.right_stick_x;    // Rotation
-
-        telemetry.addData("Left Stick Y", gamepad1.left_stick_y);
-        telemetry.addData("Left Stick X", gamepad1.left_stick_x);
-        telemetry.addData("Right Stick X", gamepad1.right_stick_x);
-        telemetry.update();
-
-
-        telemetry.addData("Input", "y: %.2f, x: %.2f, r: %.2f", y, x, r);
-
-        // Mecanum wheel formulas
-        float frontLeft  = y + x + r;
-        float frontRight = y - x - r;
-        float backLeft   = y - x + r;
-        float backRight  = y + x - r;
-
-        float[] motorPowers = { frontLeft, frontRight, backLeft, backRight };
-
-        // Normalize motor powers if needed
-        float max = getLargestAbsVal(motorPowers);
-        if (max < 1.0f) max = 1.0f;
-
-        for (int i = 0; i < motorPowers.length; i++) {
-            motorPowers[i] *= (speed / max);
-            if (Math.abs(motorPowers[i]) < 0.05f) {
-                motorPowers[i] = 0.0f; // Deadzone
-            } else if (Math.abs(motorPowers[i]) > 1.0f) {
-                motorPowers[i] /= Math.abs(motorPowers[i]); // Clamp
-            }
-        }
-
-        telemetry.addData("Powers",
-                "FL: %.2f, FR: %.2f, BL: %.2f, BR: %.2f",
-                motorPowers[0], motorPowers[1], motorPowers[2], motorPowers[3]);
-        telemetry.update();
-
-        setIndividualPowers(motorPowers);
-    }*/
 
     private void singleJoystickDrive() {
 
