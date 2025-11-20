@@ -57,7 +57,7 @@ public class Starmont_Bot {
         frontleftwheel = hardwareMap.get(DcMotor.class, "FL");
         frontrightwheel = hardwareMap.get(DcMotor.class, "FR");
         frontArm = hardwareMap.get(DcMotor.class, "FArm");
-        //backArm = hardwareMap.get(DcMotor.class, "armMotor2");
+        backArm = hardwareMap.get(DcMotor.class, "BArm");
 
         //frontLeftJaw = hardwareMap.get(Servo.class, "Grab Servo Left");
         //frontRightJaw = hardwareMap.get(Servo.class, "Grab Servo Right");
@@ -71,18 +71,20 @@ public class Starmont_Bot {
         //Example frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
 
         //Robot one
-        backrightwheel.setDirection(DcMotor.Direction.REVERSE);
+     /*   backrightwheel.setDirection(DcMotor.Direction.REVERSE);
         frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
         // RIGHT side motors stay FORWARD
         frontleftwheel.setDirection(DcMotor.Direction.FORWARD);
-        backrightwheel.setDirection(DcMotor.Direction.FORWARD);
+        backrightwheel.setDirection(DcMotor.Direction.FORWARD);*/
+
+
 
         //Robot second
-       /* frontleftwheel.setDirection(DcMotor.Direction.FORWARD);
+        frontleftwheel.setDirection(DcMotor.Direction.FORWARD);
         backleftwheel.setDirection(DcMotor.Direction.FORWARD);
 
         frontrightwheel.setDirection(DcMotor.Direction.REVERSE);
-        backrightwheel.setDirection(DcMotor.Direction.REVERSE);*/
+        backrightwheel.setDirection(DcMotor.Direction.REVERSE);
 
         //Robot 3
         /*frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
@@ -99,6 +101,7 @@ public class Starmont_Bot {
         frontrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         telemetry.addData("Status", "Initialized");
 
@@ -142,54 +145,49 @@ public class Starmont_Bot {
 
     public void setTargets(String direction, int ticks) {
 
-        //DON'T GET FREAKED OUT BY THIS! There's a lot going on, but it's very repetitive.
-        //Each of these sets the target position of each of the drivetrain motors based on the direction you want the robot to move in.
-        //Example usage: robot.setTargets("Right", 400);
-        //This will add or subtract 400 ticks from the current position of each motor and set that as the target position for the motor.
+            int FL = frontleftwheel.getCurrentPosition();
+            int FR = frontrightwheel.getCurrentPosition();
+            int BL = backleftwheel.getCurrentPosition();
+            int BR = backrightwheel.getCurrentPosition();
 
-        if (direction == "Right"){
-            //To move right, the FRONT LEFT and BACK RIGHT wheels should spin forward, and the FRONT RIGHT and BACK LEFT wheels should spin backward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() + ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
-            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() - ticks);
-            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
+            if (direction.equals("Forward")) {
+                // Forward
+                frontleftwheel.setTargetPosition(FL - ticks);
+                backleftwheel.setTargetPosition(BL - ticks);
+                frontrightwheel.setTargetPosition(FR - ticks);
+                backrightwheel.setTargetPosition(BR - ticks);
 
-        } else if (direction == "Left"){
-            //To move right, the FRONT RIGHT and BACK LEFT wheels should spin forward, and the FRONT LEFT and BACK RIGHT wheels should spin backward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() + ticks);
-            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
-            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() - ticks);
+            } else if (direction.equals("Backward")) {
+                // Backward
+                frontleftwheel.setTargetPosition(FL + ticks);
+                backleftwheel.setTargetPosition(BL + ticks);
+                frontrightwheel.setTargetPosition(FR + ticks);
+                backrightwheel.setTargetPosition(BR + ticks);
 
-        } else if (direction == "Forward"){
-            //To move forward, all of the wheels should spin forward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
-            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
-            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
+            } else if (direction.equals("Right")) { // Strafe right
+                frontleftwheel.setTargetPosition(FL + ticks);
+                backleftwheel.setTargetPosition(BL - ticks);
+                frontrightwheel.setTargetPosition(FR - ticks);
+                backrightwheel.setTargetPosition(BR + ticks);
 
-        } else if (direction == "Backward") {
-            //To move backward, all of the wheels should spin backward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
-            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() - ticks);
-            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() - ticks);
+            } else if (direction.equals("Left")) { // Strafe left
+                frontleftwheel.setTargetPosition(FL - ticks);
+                backleftwheel.setTargetPosition(BL + ticks);
+                frontrightwheel.setTargetPosition(FR + ticks);
+                backrightwheel.setTargetPosition(BR - ticks);
 
-        } else if (direction == "Turn Right") {
-            //To turn right, the LEFT SIDE wheels should spin forward, and the RIGHT SIDE wheels should spin backward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() + ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() - ticks);
-            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() + ticks);
-            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() - ticks);
+            } else if (direction.equals("Turn Right")) { // Clockwise
+                frontleftwheel.setTargetPosition(FL + ticks);
+                backleftwheel.setTargetPosition(BL + ticks);
+                frontrightwheel.setTargetPosition(FR - ticks);
+                backrightwheel.setTargetPosition(BR - ticks);
 
-        } else if (direction == "Turn Left") {
-            //To turn left, the RIGHT SIDE wheels should spin forward, and the LEFT SIDE wheels should spin backward.
-            frontleftwheel.setTargetPosition(frontleftwheel.getCurrentPosition() - ticks);
-            frontrightwheel.setTargetPosition(frontrightwheel.getCurrentPosition() + ticks);
-            backleftwheel.setTargetPosition(backleftwheel.getCurrentPosition() - ticks);
-            backrightwheel.setTargetPosition(backrightwheel.getCurrentPosition() + ticks);
-
-        }
+            } else if (direction.equals("Turn Left")) { // Counter-clockwise
+                frontleftwheel.setTargetPosition(FL - ticks);
+                backleftwheel.setTargetPosition(BL - ticks);
+                frontrightwheel.setTargetPosition(FR + ticks);
+                backrightwheel.setTargetPosition(BR + ticks);
+            }
 
         //See this file for a visual explanation of how mecanum wheels move: https://cdn11.bigcommerce.com/s-x56mtydx1w/images/stencil/original/products/2233/13272/3625-0202-0104-Product-Insight-2__24748__37151.1725633319.png?c=1
 

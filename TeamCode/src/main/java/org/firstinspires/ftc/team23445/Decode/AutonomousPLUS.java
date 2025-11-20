@@ -45,7 +45,7 @@ public class AutonomousPLUS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-    public double speed = 0.6;
+    public double speed = 0.25;
     public int sleepTime;
     public boolean inMarker;
     public double power;
@@ -67,20 +67,23 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void moveRobotForward(int ticks, long pause) {
         if (opModeIsActive()) {
-            robot.setTargets("Forward", ticks); // Inverted... Lol
-            robot.positionRunningMode();
-        }
-        robot.powerSet(speed);
+            robot.setTargets("Forward", ticks);
+            robot.positionRunningMode();  // RUN_TO_POSITION
+            robot.powerSet(speed);        // set motor power
 
-        while (opModeIsActive() && robot.isWheelsBusy()) {
-            robot.tellMotorOutput();
-        }
+            // Wait until all wheels reach their target
+            while (opModeIsActive() && robot.isWheelsBusy()) {
+                robot.tellMotorOutput();
+            }
 
-        robot.stopAllMotors();
-        robot.encoderRunningMode();
-        sleep(pause);
-        robot.encoderReset();
+            robot.stopAllMotors();        // Stop motors
+            robot.encoderRunningMode();   // Back to RUN_USING_ENCODER
+            sleep(pause);
+            robot.encoderReset();         // Optional: reset encoder
+        }
     }
+
+
 
     public void moveRobotBackward(int ticks, long pause) {
         if (opModeIsActive()) {
@@ -186,6 +189,7 @@ public class AutonomousPLUS extends LinearOpMode {
         sleep(pause);
     }
     public void prepareAuto() {
+
         robot.frontArm.setPower(0);
         robot.frontArm.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.encoderReset();

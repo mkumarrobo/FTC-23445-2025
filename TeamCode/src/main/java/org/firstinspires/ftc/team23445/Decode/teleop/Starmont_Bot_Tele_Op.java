@@ -107,7 +107,7 @@ public class Starmont_Bot_Tele_Op extends OpMode {
 
         armControl();
 
-       // clawControl();
+        clawControl();
 
        // elbowControl();
 
@@ -143,8 +143,8 @@ public class Starmont_Bot_Tele_Op extends OpMode {
 
     private void singleJoystickDrive() {
 
-        float y = -gamepad1.left_stick_y;   // forward/back
-        float x =  -gamepad1.left_stick_x;   // strafe
+        float y = gamepad1.left_stick_y;   // forward/back
+        float x =  gamepad1.left_stick_x;   // strafe
         float r =  gamepad1.right_stick_x;  // turn
 
         // --- Corrected formulas for your wheel direction ---
@@ -174,21 +174,22 @@ public class Starmont_Bot_Tele_Op extends OpMode {
 
     private void armControl() {
         if (gamepad2.left_stick_y >= 0.1){
-            robot.frontArm.setPower(0.5);
+            robot.frontArm.setPower(0.9);
         } else if (gamepad2.left_stick_y <= -0.1){
-            robot.frontArm.setPower(-0.5);
+            robot.frontArm.setPower(-0.9);
         } else {
             robot.frontArm.setPower(0);
         }
     }
     private void clawControl() {
         if (gamepad2.a) {
-            robot.bite("OPEN");
+            robot.backArm.setPower(-0.95);
             //meow THIS OPENS IT :3
         }
         else if (gamepad2.b) {
-            robot.bite("CLOSE");
+            robot.backArm.setPower(0);
             //CLOSES IT!!!!!!!!!!!
+
         }
     }
 

@@ -1,35 +1,38 @@
 package org.firstinspires.ftc.team23445.Decode.auto;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.team23445.Decode.AutonomousPLUS;
 import org.firstinspires.ftc.team23445.Decode.Starmont_Bot;
 
- //TODO delete the @Disabled to make the auto show up
-@Autonomous(group = "Basic", name = "startAuto") //TODO name your auto
+@Autonomous(group = "Basic", name = "startAuto")
 public class startAuto extends AutonomousPLUS {
 
-    //DO NOT DELETE THIS LINE! CAPITALIZATION IS VERY IMPORTANT!!!
-    public org.firstinspires.ftc.team23445.Decode.Starmont_Bot robot = null;
-
-    public void runOpMode() { // This function will run when you initialize the program
+    @Override
+    public void runOpMode() {
 
         robot = new Starmont_Bot(hardwareMap, telemetry, this);
 
-        super.runOpMode(); // Robot constructor
+        // Reset encoders and prepare arm
+        prepareAuto();
 
-        waitForStart(); // Waits for start
+        telemetry.addLine("Ready to start");
+        telemetry.update();
 
-        //TODO add your step-by step code here using functions from AutonomousPLUS
-        moveRobotForward(1000,100);
-        prepareNextAction(2000);
+        waitForStart();
+        if (!opModeIsActive()) return;
 
-        // end auto
+        // Convert 6 inches to encoder ticks
+        int forwardTicks = convertInchesToTicks(6);
+
+        moveRobotForward(forwardTicks, 300);
+
+        telemetry.addLine("Finished moving 6 inches");
+        telemetry.update();
+        prepareNextAction(300);
+        // Add more steps if needed:
+         //moveRobotLeft(800, 200);
+        // turnRobotRight(500, 300);
+        // moveFrontArm(500, 0.8, 500);
 
     }
-
-    // if you want to add any functions unique to this auto, do it here
-
 }
