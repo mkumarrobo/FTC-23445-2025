@@ -183,7 +183,7 @@ public class Starmont_Bot_Tele_Op extends OpMode {
     }
     private void clawControl() {
         if (gamepad2.a) {
-            robot.backArm.setPower(-0.95);
+            robot.backArm.setPower(0.95);
             //meow THIS OPENS IT :3
         }
         else if (gamepad2.b) {

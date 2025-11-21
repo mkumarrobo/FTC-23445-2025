@@ -84,7 +84,7 @@ public class Starmont_Bot {
         backleftwheel.setDirection(DcMotor.Direction.FORWARD);
 
         frontrightwheel.setDirection(DcMotor.Direction.REVERSE);
-        backrightwheel.setDirection(DcMotor.Direction.REVERSE);
+        backrightwheel.setDirection(DcMotor.Direction.FORWARD);
 
         //Robot 3
         /*frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
