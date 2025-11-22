@@ -45,7 +45,7 @@ public class AutonomousPLUS extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
 
 
-    public double speed = 0.25;
+    public double speed = 0.6;
     public int sleepTime;
     public boolean inMarker;
     public double power;
@@ -79,7 +79,7 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.stopAllMotors();        // Stop motors
             robot.encoderRunningMode();   // Back to RUN_USING_ENCODER
             sleep(pause);
-            robot.encoderReset();         // Optional: reset encoder
+            //robot.encoderReset();         // Optional: reset encoder
         }
     }
 
@@ -117,7 +117,7 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.stopAllMotors();
             robot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+           // robot.encoderReset();
         }
     }
 
@@ -135,7 +135,7 @@ public class AutonomousPLUS extends LinearOpMode {
             robot.stopAllMotors();
             robot.encoderRunningMode();
             sleep(pause);
-            robot.encoderReset();
+          //  robot.encoderReset();
         }
     }
 
@@ -197,7 +197,6 @@ public class AutonomousPLUS extends LinearOpMode {
 
     public void prepareNextAction(long pause) {
         sleep(pause);
-        robot.encoderReset();
     }
 
     public int convertInchesToTicks(int inches){

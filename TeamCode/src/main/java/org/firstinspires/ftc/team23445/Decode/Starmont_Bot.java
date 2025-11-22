@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -21,7 +22,9 @@ public class Starmont_Bot {
     public DcMotor frontArm;
     public DcMotor backArm;
 
-    public Servo frontLeftJaw;
+    public DcMotor frontMove;
+
+    public Servo frontServo;
     public Servo frontRightJaw;
     public Servo flippyFrontArm;
     public Servo backLeftJaw;
@@ -58,8 +61,9 @@ public class Starmont_Bot {
         frontrightwheel = hardwareMap.get(DcMotor.class, "FR");
         frontArm = hardwareMap.get(DcMotor.class, "FArm");
         backArm = hardwareMap.get(DcMotor.class, "BArm");
+        frontMove = hardwareMap.get(DcMotor.class, "FM");
 
-        //frontLeftJaw = hardwareMap.get(Servo.class, "Grab Servo Left");
+        frontServo = hardwareMap.get(Servo.class, "SL");
         //frontRightJaw = hardwareMap.get(Servo.class, "Grab Servo Right");
         //flippyFrontArm = hardwareMap.get(Servo.class, "Arm Servo");
         //backLeftJaw = hardwareMap.get(Servo.class, "Back Arm Left");
@@ -84,7 +88,7 @@ public class Starmont_Bot {
         backleftwheel.setDirection(DcMotor.Direction.FORWARD);
 
         frontrightwheel.setDirection(DcMotor.Direction.REVERSE);
-        backrightwheel.setDirection(DcMotor.Direction.FORWARD);
+        backrightwheel.setDirection(DcMotor.Direction.REVERSE);
 
         //Robot 3
         /*frontleftwheel.setDirection(DcMotor.Direction.REVERSE);
@@ -102,6 +106,8 @@ public class Starmont_Bot {
         backrightwheel.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         frontArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontMove.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         telemetry.addData("Status", "Initialized");
 
@@ -109,12 +115,12 @@ public class Starmont_Bot {
 
     public void bite(String openClose) {
         if (openClose == "OPEN") {
-            frontLeftJaw.setPosition(0.59);
-            frontRightJaw.setPosition(0.38);
+            //frontLeftJaw.setPosition(0.59);
+            //frontRightJaw.setPosition(0.38);
         }
         else if (openClose == "CLOSE") {
-            frontLeftJaw.setPosition(.42);
-            frontRightJaw.setPosition(.52);
+            //frontLeftJaw.setPosition(.42);
+           // frontRightJaw.setPosition(.52);
         }
     }
 

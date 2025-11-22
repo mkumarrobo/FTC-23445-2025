@@ -31,6 +31,8 @@ package org.firstinspires.ftc.team23445.Decode.teleop;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.team23445.Decode.Starmont_Bot;
@@ -109,7 +111,7 @@ public class Starmont_Bot_Tele_Op extends OpMode {
 
         clawControl();
 
-       // elbowControl();
+        elbowControl();
 
     }
 
@@ -144,7 +146,7 @@ public class Starmont_Bot_Tele_Op extends OpMode {
     private void singleJoystickDrive() {
 
         float y = gamepad1.left_stick_y;   // forward/back
-        float x =  gamepad1.left_stick_x;   // strafe
+        float x =  -gamepad1.left_stick_x;   // strafe
         float r =  gamepad1.right_stick_x;  // turn
 
         // --- Corrected formulas for your wheel direction ---
@@ -173,32 +175,44 @@ public class Starmont_Bot_Tele_Op extends OpMode {
 
 
     private void armControl() {
-        if (gamepad2.left_stick_y >= 0.1){
+        if (gamepad2.left_trigger >=0.1) {
             robot.frontArm.setPower(0.9);
-        } else if (gamepad2.left_stick_y <= -0.1){
-            robot.frontArm.setPower(-0.9);
-        } else {
+        } else if(gamepad2.left_bumper) {
             robot.frontArm.setPower(0);
         }
     }
     private void clawControl() {
         if (gamepad2.a) {
-            robot.backArm.setPower(0.95);
+            robot.backArm.setPower(0.65);
+           // robot.frontMove.setPower(-0.8);
+            robot.frontServo.setDirection(Servo.Direction.REVERSE);
+            robot.frontServo.setPosition(1.0);
             //meow THIS OPENS IT :3
-        }
-        else if (gamepad2.b) {
+        } else if (gamepad2.b) {
             robot.backArm.setPower(0);
+           // robot.frontMove.setPower(0);
+            robot.frontServo.setPosition(0.5);
             //CLOSES IT!!!!!!!!!!!
-
+        }else if(gamepad2.y)
+        {
+            robot.backArm.setPower(-0.6);
+        }
+        else if(gamepad2.x)
+        {
+                robot.backArm.setPower(0.8);
+                robot.frontServo.setDirection(Servo.Direction.REVERSE);
+                robot.frontServo.setPosition(1.0);
+                //meow THIS OPENS IT :3
         }
     }
 
     private void elbowControl() {
-        if (gamepad2.y) {
-            robot.moveElbow(Boolean.TRUE);
+        if (gamepad2.left_stick_x <= -0.1) {
+            robot.frontMove.setPower(-0.8);
         }
-        else if (gamepad2.x) {
-            robot.moveElbow(Boolean.FALSE);
+        else if (gamepad2.left_stick_x >= 0.1)
+        {
+            robot.frontMove.setPower(0);
         }
     }
 
